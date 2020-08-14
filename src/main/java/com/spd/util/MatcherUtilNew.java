@@ -9,7 +9,6 @@ import java.util.*;
  */
 public class MatcherUtilNew implements Serializable {
 
-
     public Map<Character, Map<String,String>> TREE_MAP = new TreeMap<Character, Map<String,String>>();
 
     public void addPattern(String pattern, String data) {
