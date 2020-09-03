@@ -33,12 +33,16 @@ public class HostZj {
             //匹配host的路径
             String host_path = args[2].trim();
 
+            //输出控制  0:输出手机和imei,1:只输出手机  2:只输出imei
+            String outcontrol= args[3].trim();
+
             Configuration conf  =new Configuration();
             conf.set ( "mapreduce.map.failures.maxpercent", "90" );
             conf.set ( "mapreduce.reduce.failures.maxpercent", "90" );
            // conf.set ( "mapred.job.queue.name", queue );
 
             conf.set("host_path",host_path);
+            conf.set("outcontrol",outcontrol);
             boolean inputFile = HadoopFileUtil.isFileExist ( in_path,conf );
             boolean outputFile = HadoopFileUtil.isFileExist ( out_path );
             if ( !inputFile ) {

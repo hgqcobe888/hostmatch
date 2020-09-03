@@ -11,6 +11,9 @@ public class HostBeanZj implements Writable {
     /**imei*/
     private String imei;
 
+    /**设备号*/
+    private String device;
+
     /**url*/
     private String uri;
 
@@ -21,8 +24,9 @@ public class HostBeanZj implements Writable {
 
     }
 
-    public HostBeanZj(String imei, String uri, long count){
+    public HostBeanZj(String imei,String device, String uri, long count){
         this.imei = imei;
+        this.device = device;
         this.uri = uri;
         this.count = count;
     }
@@ -31,6 +35,7 @@ public class HostBeanZj implements Writable {
     @Override
     public void write(DataOutput out) throws IOException {
         out.writeUTF(imei);
+        out.writeUTF(device);
         out.writeUTF(uri);
         out.writeLong(count);
     }
@@ -38,6 +43,7 @@ public class HostBeanZj implements Writable {
     @Override
     public void readFields(DataInput in) throws IOException {
         this.imei = in.readUTF();
+        this.device = in.readUTF();
         this.uri = in.readUTF();
         this.count = in.readLong();
 
@@ -45,7 +51,7 @@ public class HostBeanZj implements Writable {
 
     @Override
     public String toString() {
-        return this.imei+"|"+this.count+"|"+this.uri;
+        return this.imei+"|"+this.device+"|"+this.count+"|"+this.uri;
     }
 
     public String getImei() {
@@ -54,6 +60,14 @@ public class HostBeanZj implements Writable {
 
     public void setImei(String imei) {
         this.imei = imei;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
     }
 
     public String getUri() {

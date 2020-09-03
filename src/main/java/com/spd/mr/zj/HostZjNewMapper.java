@@ -18,8 +18,11 @@ public class HostZjNewMapper extends Mapper<LongWritable, Text, Text, HostBeanZj
     public static HashMap<String,String> COMPARES = new HashMap<>();
     public static String SPLIT = "0";
 
+    public static String outcontrol = "0";
+
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
+        outcontrol=context.getConfiguration().get("outcontrol");
         SPLIT = context.getConfiguration().get("split");
         if("0".equals(SPLIT)){
             SPLIT = "|";
@@ -58,6 +61,7 @@ public class HostZjNewMapper extends Mapper<LongWritable, Text, Text, HostBeanZj
             String[] arr = StringUtils.splitPreserveAllTokens(value.toString(), "\\|");
             if(arr.length>=8){
                 String mobile = arr[1];
+                String device = arr[2];
                 if(StringUtils.isBlank(mobile)){
                     context.getCounter("DEBUG", "mobile |" + mobile).increment(1);
                     return;
@@ -81,9 +85,17 @@ public class HostZjNewMapper extends Mapper<LongWritable, Text, Text, HostBeanZj
                 if(results!=null && results.size() >0){
                     for (String r:results.keySet()){
                         bean.setImei(mobile);
+                        bean.setDevice(device);
                         bean.setUri(r);
                         bean.setCount(1);
-                        context.write(new Text(mobile+"|"+results.get(r)),bean); //r.data=>C0
+
+                        if("1".equals(outcontrol)){
+                            context.write(new Text(mobile+"|"+results.get(r)),bean); //r.data=>C0
+                        }else if ("2".equals(outcontrol)){
+                            context.write(new Text(device+"|"+results.get(r)),bean); //r.data=>C0
+                        }else{
+                            context.write(new Text(mobile+"|"+device+"|"+results.get(r)),bean); //r.data=>C0
+                        }
                     }
                 }
             }

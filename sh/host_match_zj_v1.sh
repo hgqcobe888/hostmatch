@@ -27,6 +27,7 @@ do
     $in_path \
     $out_path/$date \
     ${hosts} \
+    $outcontrol \
     2>&1 |tee -a ${logPath}"/spd_"$logDay".log"
 
 

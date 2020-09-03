@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class HostZjReducer extends Reducer<Text, HostBeanZj, Text, Text> {
 
+    @Override
     public void reduce(Text key, Iterable<HostBeanZj> lists, Context context) throws IOException, InterruptedException {
         try{
             long count = 0;
